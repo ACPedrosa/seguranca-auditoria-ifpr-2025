@@ -19,4 +19,19 @@ def read_header(arquivo):
     }
     return header
 
+def header_validation(header):
+    if header["ident"] != b'ED':
+        print("Arquivo inválido: identificador incorreto.")
+    if header["version"] != 0x01:
+        print("Versão não suportada.")
+    if header["algo"] != 0x01:
+        print("Algoritmo não suportado.")
+    if header["mode"] != 0x01:
+        print("Modo de operação não suportado (esperado CBC).")
+    return True
+
+def create_key():
+    senha = input("Digite a senha do arquivo: ").encode()
+    chave = hashlib.sha256(senha).digest()  # 256 bits (32 bytes)
+    return chave
 
