@@ -67,7 +67,6 @@ def save_file(header, enc, arquivo):
     with open(arquivo +'.enc', "wb") as f:
         f.write(completo)
 
-
 # === Main ===
 arquivo = input("Digite o caminho do seu arquivo: ")
 if not os.path.isfile(arquivo):
