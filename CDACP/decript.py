@@ -1,7 +1,7 @@
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
-import hashlib
+from hashlib import sha256
 import os
 
 def read_header(arquivo):
@@ -23,16 +23,16 @@ def header_validation(header):
     if header["ident"] != b'ED':
         print("Arquivo inválido: identificador incorreto.")
     if header["version"] != 0x01:
-        print("Versão não suportada.")
+        print("Versão incorreta.")
     if header["algo"] != 0x01:
-        print("Algoritmo não suportado.")
+        print("Algoritmo incorreto.")
     if header["mode"] != 0x01:
-        print("Modo de operação não suportado (esperado CBC).")
+        print("Modo de operação inválido")
     return True
 
 def create_key():
     senha = input("Digite a senha do arquivo: ").encode()
-    chave = hashlib.sha256(senha).digest()  # 256 bits (32 bytes)
+    chave = hashlib.sha256(senha).digest()  
     return chave
 
 def decrypt_aes(key: bytes, iv: bytes, ciphertext: bytes) -> bytes:

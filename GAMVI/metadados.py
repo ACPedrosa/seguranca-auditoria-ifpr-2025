@@ -1,7 +1,7 @@
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
-import hashlib
+from hashlib import sha256
 import os
 
 def create_dir():
@@ -11,10 +11,11 @@ def create_dir():
     os.mkdir(dir_file)     
     os.mkdir(dir_meta)
 
+#SHA256 vai gerar uma hash que sempre vai medir 256 bits, ou seja, 32 bytes.
 def create_key():
-    senha = input("Digite a senha do arquivo: ").encode()
-    chave = hashlib.sha256(senha).digest()
-    return chave
+    senha = input("Digite a senha do arquivo: ")
+    hash_senha = sha256(senha.encode()).digest()
+    return hash_senha
 
 def encrypt_aes(key: bytes, iv: bytes, plaintext: bytes) -> bytes:
     """
