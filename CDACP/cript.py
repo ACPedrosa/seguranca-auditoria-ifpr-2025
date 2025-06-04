@@ -62,10 +62,10 @@ def encrypt_aes(key: bytes, iv: bytes, plaintext: bytes) -> bytes:
 
     return ciphertext
 
-def save_file(header, enc, arquivo):
+def save_file(header, enc):
     completo = header + enc
   # Salvar o arquivo
-    with open(arquivo +'.enc', "wb") as f:
+    with open('concat.enc', "wb") as f:
         f.write(completo)
 
 # === Main ===
@@ -78,5 +78,5 @@ else:
     iv = create_iv()
     enc = encrypt_aes(chave, iv, arqBin)
     header = create_header(iv)
-    save_file(header, enc, arquivo)
+    save_file(header, enc)
     

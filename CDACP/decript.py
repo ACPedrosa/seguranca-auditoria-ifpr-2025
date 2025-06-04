@@ -6,7 +6,7 @@ import os
 
 def read_header(arquivo):
     with open(arquivo, "rb") as f:
-        data = f.read(48)
+        data = f.read(32)
     
     header = {
         "ident": data[0:2],
@@ -14,26 +14,25 @@ def read_header(arquivo):
         "algo": data[3],
         "mode": data[4],
         "iv": data[5:21],
-        "fingerprint": data[21:37],  # não usado no momento
-        "reserved": data[37:48]
+        "reserved": data[21:32]
     }
     return header
 
 def header_validation(header):
     if header["ident"] != b'ED':
-        print("Arquivo inválido: identificador incorreto.")
+        raise ValueError("Identificador incorreto.")
     if header["version"] != 0x01:
-        print("Versão incorreta.")
+        raise ValueError("Versão incorreta.")
     if header["algo"] != 0x01:
-        print("Algoritmo incorreto.")
+        raise ValueError("Algoritmo não suportado.")
     if header["mode"] != 0x01:
-        print("Modo de operação inválido")
+        raise ValueError("Modo de operação não suportado.")
     return True
 
 def create_key():
-    senha = input("Digite a senha do arquivo: ").encode()
-    chave = hashlib.sha256(senha).digest()  
-    return chave
+    senha = input("Digite a senha do arquivo: ")
+    hash_senha = sha256(senha.encode()).digest()
+    return hash_senha
 
 def decrypt_aes(key: bytes, iv: bytes, ciphertext: bytes) -> bytes:
     """
@@ -74,23 +73,19 @@ arquivo = input("Digite o caminho do arquivo criptografado: ")
 
 if not os.path.isfile(arquivo):
     print("Arquivo não encontrado.")
-else:
-    header = read_header(arquivo)
-    try:
-        header_validation(header)
-    except ValueError as e:
-        print("Erro de validação do cabeçalho:", e)
-        exit()
+    exit()
 
+try:
+    header = read_header(arquivo)
+    header_validation(header)
     chave = create_key()
 
     with open(arquivo, "rb") as f:
-        f.seek(48) 
+        f.seek(32)
         conteudo_cifrado = f.read()
 
-    try:
-        texto_decifrado = decrypt_aes(chave, header["iv"], conteudo_cifrado)
-        save_file(arquivo, texto_decifrado)
-    except Exception as e:
-        print("Erro ao decifrar:", e)
+    texto_decifrado = decrypt_aes(chave, header["iv"], conteudo_cifrado)
+    save_file(arquivo, texto_decifrado)
 
+except Exception as e:
+    print("Erro:", e)
