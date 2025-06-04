@@ -4,12 +4,6 @@ from cryptography.hazmat.primitives import padding
 from hashlib import sha256
 import os
 
-def create_dir():
-    dir_file = './arquivos' 
-    dir_meta = './meta'
-
-    os.mkdir(dir_file)     
-    os.mkdir(dir_meta)
 
 #SHA256 vai gerar uma hash que sempre vai medir 256 bits, ou seja, 32 bytes.
 def create_key():
@@ -150,10 +144,11 @@ def compararMeta(nameFile, key):
 
 os.makedirs('./meta', exist_ok=True)
 
-key = create_key()
-#key = b'\xe1\x18\x89\xae\x98\xf7\x94\xf4+\x9bL\x89\xe0\x08W\xf8'
 
 nameFile_input = input("Informe o nome do arquivo.\nPara gerar o meta: 'nome_original.txt' (deve estar em './arquivos/')\nPara comparar o meta e o original: 'nome_original.meta' (deve estar em './meta/')\nNome do arquivo: ")
+
+key = create_key()
+#key = b'\xe1\x18\x89\xae\x98\xf7\x94\xf4+\x9bL\x89\xe0\x08W\xf8'
 
 op = -1
 
