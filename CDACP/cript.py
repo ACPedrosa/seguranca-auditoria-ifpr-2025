@@ -1,9 +1,9 @@
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives import padding, hashes
+from cryptography.hazmat.primitives import padding
 import secrets
-import hashlib
+from hashlib import sha256
 import os
 
 def read_file(arquivo):
@@ -11,13 +11,14 @@ def read_file(arquivo):
         arqBin = f.read()
     return arqBin
 
+#SHA256 vai gerar uma hash que sempre vai medir 256 bits, ou seja, 32 bytes.
 def create_key():
-    senha = input("Digite a senha do arquivo: ").encode()
-    chave = hashlib.sha256(senha).digest()
-    return chave
+    senha = input("Digite a senha do arquivo: ")
+    hash_senha = sha256(senha.encode()).digest()
+    return hash_senha
     
 def create_iv():
-    iv = secrets.token_bytes(16)
+    iv = secrets.token_bytes(16)#gerador de números pseudoaleatórios
     return iv
 
 def create_header(iv):
