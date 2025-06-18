@@ -68,7 +68,7 @@ def save_file(nome_arquivo: str, dados: bytes):
         f.write(dados)
     
 
-# === Execução principal ===
+# === Main ===
 arquivo = input("Digite o caminho do arquivo criptografado: ")
 
 if not os.path.isfile(arquivo):
