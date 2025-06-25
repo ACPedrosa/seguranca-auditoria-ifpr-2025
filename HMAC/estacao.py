@@ -5,6 +5,17 @@
 """
 
 def receber_dados_estação(temperatura, umidade, pressao) -> dict:
+    """
+    Recebe os dados da estação e gera um dicionário 
+
+    Parâmetros:
+        temperatura: dado de temperatura
+        umidade: dado de umidade
+        pressao: dado de pressao atmosférica
+
+    Retorno:
+        dict: dicionário com os dados da estação
+    """
     dict_dados = {
         "temperatura": temperatura,
         "umidade": umidade,
@@ -27,3 +38,4 @@ def autenticar_mensagem(dados: dict, chave_secrete: bytes) -> bytes:
     """
     mensagem = b'ana'
     return mensagem
+
