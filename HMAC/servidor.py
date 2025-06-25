@@ -19,6 +19,16 @@ def ler_json(caminho: str) -> dict:
         return json.load(f)
     
 def verificar_mensagem(mensagem: dict, senha: str, salt:bytes) -> bool:
+    """
+    Verifica se os dados do arquivo json foram alterados
+
+    Parametros:
+        mensagem(dict): dicionário com os dados da estação
+        senha(str): senha para autenticação de usuário
+        salt(bytes): tempero utilizado no hahs da senha
+    Retorno:
+        boolean: true ou false da verificação
+    """
     dados = mensagem['dados']
     hmac_json = mensagem['hmac']
 
