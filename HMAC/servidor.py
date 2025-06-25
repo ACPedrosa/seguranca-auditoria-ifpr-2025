@@ -1,8 +1,8 @@
+from hmac import compare_digest
 import hashlib
 import hmac
 import json
-import os
-import secrets
+
 
 
 def ler_json(caminho: str) -> dict:
@@ -18,14 +18,21 @@ def ler_json(caminho: str) -> dict:
     with open(caminho, "r", encoding="utf-8") as f:
         return json.load(f)
     
-def verificar_mensagem(mensagem: dict, chave_secreta: bytes) -> bool:
+def verificar_mensagem(mensagem: dict, senha: str, salt:bytes) -> bool:
     dados = mensagem['dados']
-    hmac = mensagem['hmac']
+    hmac_json = mensagem['hmac']
 
     dados_json = json.dumps(dados, sort_keys=True).encode()
+
+    chave_secreta = hashlib.pbkdf2_hmac('sha256', senha.encode(), salt, 100)
 
     # Gera o HMAC com SHA-256
     hash_hmac = hmac.new(chave_secreta, dados_json, hashlib.sha256).hexdigest()
 
+    # Verificar se o hash gerado corresponde ao hash armazenado
+    return compare_digest( hmac_json,hash_hmac)
+
+
+    
 
 
