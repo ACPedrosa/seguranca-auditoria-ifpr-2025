@@ -45,7 +45,7 @@ dados = {
 chave_secreta = b"chocolate"
 
 # Geração da mensagem autenticada
-mensagem_autenticada = gerar_mensagem_autenticada(dados, chave_secreta)
+mensagem_autenticada = autenticar_mensagem(dados, chave_secreta)
 
 # Validação da mensagem no servidor
 eh_valida = validar_mensagem(mensagem_autenticada, chave_secreta)
@@ -57,11 +57,11 @@ print("Mensagem válida?", eh_valida)
 
 ## Estrutura das Funções
 
-### `gerar_mensagem_autenticada(dados: dict, chave: bytes) -> dict`
+`autenticar_mensagem(dados: dict, chave: bytes) `
 
 Gera o HMAC com base nos dados e retorna um dicionário com os dados e o hash.
 
-### `validar_mensagem(mensagem: dict, chave: bytes) -> bool`
+`validar_mensagem(mensagem, chave: bytes) -> bool`
 
 Recebe a mensagem e verifica se o HMAC bate com os dados.
 
