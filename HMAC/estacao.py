@@ -46,7 +46,7 @@ def hash_senha(senha):
 
     chave_secreta = hashlib.pbkdf2_hmac('sha256', senha.encode(), salt, iterations)
 
-    return chave_secreta
+    return salt, chave_secreta
 
 def autenticar_mensagem(dados: dict, chave_secreta: bytes) -> bytes:
     """
