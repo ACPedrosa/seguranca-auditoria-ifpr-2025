@@ -6,18 +6,18 @@
 import hashlib
 import hmac
 import json
+import os
 import secrets
 
 
-
-def receber_dados_estação(temperatura:float, umidade:float, pressao:float) -> dict:
+def receber_dados_estacao(temperatura:float, umidade:float, pressao:float) -> dict:
     """
     Recebe os dados da estação e gera um dicionário 
 
     Parâmetros:
-        temperatura: dado de temperatura
-        umidade: dado de umidade
-        pressao: dado de pressao atmosférica
+        temperatura(float): dado de temperatura
+        umidade(float): dado de umidade
+        pressao(float): dado de pressao atmosférica
 
     Retorno:
         dict: dicionário com os dados da estação
@@ -35,21 +35,18 @@ def hash_senha(senha):
     Gera o salt e o hash da senha com o salt
 
     Parâmetros:
-        senha: senha receida do usuário
+        senha(str): senha receida do usuário
     Retorno:
-        hashed_senha: hash da senha com o salt
+        chave_secreta: hash da senha com o salt
     """
     # Gerar um salt aleatório de 16 bytes
     salt = secrets.token_bytes(16)
 
-    # Criar uma instância do hash sha256
-    hasher = hashlib.new('sha256')
+    iterations = 100
 
-    hasher.update(salt + senha.encode())
+    chave_secreta = hashlib.pbkdf2_hmac('sha256', senha.encode(), salt, iterations)
 
-    hashed_senha = hasher.digest()
-
-    return hashed_senha
+    return chave_secreta
 
 def autenticar_mensagem(dados: dict, chave_secreta: bytes) -> bytes:
     """
@@ -63,6 +60,27 @@ def autenticar_mensagem(dados: dict, chave_secreta: bytes) -> bytes:
         bytes: arquivo com os dados originais e o HMAC gerado.
     """
 
-    mensagem = b'ana'
+    dados_json = json.dumps(dados, sort_keys=True).encode()
+
+    # Gera o HMAC com SHA-256
+    hash_hmac = hmac.new(chave_secreta, dados_json, hashlib.sha256).hexdigest()
+
+    # Retorna os dados 
+    mensagem = {
+        "dados": dados,
+        "hmac": hash_hmac
+    }
+
     return mensagem
+
+def salvar_json(mensagem: dict):
+    """
+    Salva a mensagem em um arquivo jason na pasta 'dados'.
+
+    Parâmetros:
+        mensagem (dict): mensagem autenticada com os dados e o HMAC.
+    """
+    os.makedirs("dados", exist_ok=True)
+    with open("dados/dados_estacao.json", "w", encoding="utf-8") as f:
+        json.dump(mensagem, f, ensure_ascii=False, indent=4)
 
