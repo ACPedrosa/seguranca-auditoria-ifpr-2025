@@ -3,8 +3,14 @@
     A estação deve enviar os dados assinados para o servidor
         - Aplicando HMAC
 """
+import hashlib
+import hmac
+import json
+import secrets
 
-def receber_dados_estação(temperatura, umidade, pressao) -> dict:
+
+
+def receber_dados_estação(temperatura:float, umidade:float, pressao:float) -> dict:
     """
     Recebe os dados da estação e gera um dicionário 
 
@@ -24,8 +30,28 @@ def receber_dados_estação(temperatura, umidade, pressao) -> dict:
     
     return dict_dados
 
+def hash_senha(senha):
+    """
+    Gera o salt e o hash da senha com o salt
 
-def autenticar_mensagem(dados: dict, chave_secrete: bytes) -> bytes:
+    Parâmetros:
+        senha: senha receida do usuário
+    Retorno:
+        hashed_senha: hash da senha com o salt
+    """
+    # Gerar um salt aleatório de 16 bytes
+    salt = secrets.token_bytes(16)
+
+    # Criar uma instância do hash sha256
+    hasher = hashlib.new('sha256')
+
+    hasher.update(salt + senha.encode())
+
+    hashed_senha = hasher.digest()
+
+    return hashed_senha
+
+def autenticar_mensagem(dados: dict, chave_secreta: bytes) -> bytes:
     """
     Gera uma mensagem autenticada com HMAC-SHA256.
 
@@ -36,6 +62,7 @@ def autenticar_mensagem(dados: dict, chave_secrete: bytes) -> bytes:
     Retorno:
         bytes: arquivo com os dados originais e o HMAC gerado.
     """
+
     mensagem = b'ana'
     return mensagem
 
