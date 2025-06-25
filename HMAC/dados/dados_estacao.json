@@ -1,0 +1,8 @@
+{
+    "dados": {
+        "temperatura": 23.5,
+        "umidade": 65,
+        "pressao": 1012
+    },
+    "hmac": "7ab7cb8114fa50e1460edae103f78816cecd1c501a5fb985aca852e362b8bf4d"
+}
