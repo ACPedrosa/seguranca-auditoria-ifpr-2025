@@ -22,12 +22,6 @@ Garantir a **autenticidade** e **integridade** das mensagens enviadas pela esta�
 * Calcula o HMAC localmente e compara com o fornecido.
 * Retorna `True` se a mensagem for válida, `False` caso contrário.
 
-### Proteção contra Replay Attacks
-
-* Timestamp incluído nas mensagens.
-* Um contador único por mensagem pode ser adicionado.
-* O servidor valida se a mensagem é recente e não duplicada.
-
 ---
 
 ## Exemplo de Uso
@@ -38,8 +32,6 @@ dados = {
     "temperatura": 25.3,
     "umidade": 60.2,
     "pressao": 1013.2,
-    "timestamp": 1721567840,
-    "contador": 42
 }
 
 chave_secreta = b"chocolate"
@@ -48,9 +40,9 @@ chave_secreta = b"chocolate"
 mensagem_autenticada = autenticar_mensagem(dados, chave_secreta)
 
 # Validação da mensagem no servidor
-eh_valida = validar_mensagem(mensagem_autenticada, chave_secreta)
+validacao = validar_mensagem(mensagem_autenticada, chave_secreta, salt)
 
-print("Mensagem válida?", eh_valida)
+print("Mensagem válida?", validacao)
 ```
 
 ---
@@ -61,18 +53,9 @@ print("Mensagem válida?", eh_valida)
 
 Gera o HMAC com base nos dados e retorna um dicionário com os dados e o hash.
 
-`validar_mensagem(mensagem, chave: bytes) -> bool`
+`validar_mensagem(mensagem, senha, salt) -> bool`
 
 Recebe a mensagem e verifica se o HMAC bate com os dados.
-
----
-
-## Segurança Adicional
-
-Para evitar ataques de replay:
-
-* As mensagens incluem `timestamp`, e o servidor verifica se a diferença de tempo é aceitável (ex: ±30 segundos).
-* Um `contador` pode ser usado como nonce, e o servidor armazena os contadores já recebidos para recusar repetições.
 
 ---
 
@@ -81,7 +64,6 @@ Para evitar ataques de replay:
 * Python 3.12.1
 * `hashlib` (SHA-256)
 * `hmac`
-* `time` (timestamp)
 
 ---
 
