@@ -1,14 +1,40 @@
-from cript_msg import read_file, create_key, create_iv, encrypt_aes, create_header, save_file
-import os
+# main.py
+from EnvelopDigital import EnvelopDigital
+from Destinatario import Destinatario
+from seguranca import gerar_chaves_rsa
 
-# === Main ===
-arquivo = input("Digite o caminho do seu arquivo: ")
-if not os.path.isfile(arquivo):
-    print("Arquivo não encontrado.")
-else:
-    arqBin = read_file(arquivo)
-    chave = create_key()
-    iv = create_iv()
-    enc = encrypt_aes(chave, iv, arqBin)
-    header = create_header(iv)
-    save_file(header, enc)
+def main():
+    # --- Gerar chaves RSA do destinatário ---
+    chave_privada, chave_publica = gerar_chaves_rsa()
+    #print("Chave pública e chave privada geradas.\n")
+
+    # --- Criação do envelope digital ---
+    print("----- Crie seu envelope digital -----\n")
+    envelope = EnvelopDigital(chave_publica)
+
+    # Executa a FSM até ENVIAR
+    while envelope.estado_atual != envelope.estado_atual.ENVIAR:
+        envelope.fsm()
+
+    envelope.fsm() 
+    print("Envelope digital salvo em 'envelope.json'.\n")
+
+    # --- Menu ---
+    while True:
+        print("\nEscolha uma opção:")
+        print("1 - Decifrar a mensagem")
+        print("2 - Sair")
+        opcao = input("Digite sua opção: ").strip()
+
+        if opcao == "1":
+            destinatario = Destinatario(chave_privada)
+            mensagem_recebida = destinatario.abrir_envelope("ED/envelope.json")
+            print("\nMensagem recebida:", mensagem_recebida)
+        elif opcao == "2":
+            print("Saindo do programa")
+            break
+        else:
+            print("Opção inválida! Tente novamente.")
+
+if __name__ == "__main__":
+    main()
