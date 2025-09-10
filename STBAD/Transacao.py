@@ -6,6 +6,7 @@
 
 from datetime import datetime
 import json
+import base64
 
 class Transacao:
     def __init__(self, remetente: str, destinatario: str, valor: float, data_hora: datetime, assinatura_digital: bytes):
@@ -56,7 +57,7 @@ class Transacao:
             "destinatario": self._destinatario,
             "valor": self._valor,
             "data_hora": self._data_hora.strftime('%Y-%m-%d %H:%M:%S'),
-            "assinatura_digital": self._assinatura_digital.hex()
+            "assinatura_digital": base64.b64encode(self._assinatura_digital).decode('utf-8')
     }
 
     def log_transacao(transacao, arquivo='log_transacoes.json'):
