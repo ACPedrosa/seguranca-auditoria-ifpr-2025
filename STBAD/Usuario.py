@@ -4,7 +4,7 @@
     Date: 03/09/2025
 """
 from Transacao import Transacao 
-from seguranca import criar_chave_publica, criar_chave_privada, config_padding, assinar_dados
+from seguranca import *
 
 from datetime import datetime
 
@@ -37,17 +37,26 @@ class Usuario:
     
     def criar_transacao(self, nome_dest: str, valor:float):
         padding_config = config_padding()
+        data_hora = datetime.now()
 
-        assinatura = assinar_dados()
-        transacao = Transacao(self._nome, nome_dest, valor, datetime.now(), assinatura)
+        # Ler a chave privada str(PEM) do usuario, e converter para PEM
+        chave_pem = input("Cole sua chave privada PEM: ")
+        chave_privada = converter_chave_privada_str_to_pem(chave_pem)
+
+        mensagem = f"Remetente: {self._nome}\nDestinatario: {nome_dest}\nValor: {valor:.2f}\nData/Hora: {data_hora}".strip().encode()
+        assinatura = assinar_dados(chave_privada, mensagem, padding_config)  
+
+        transacao = Transacao(self._nome, nome_dest, valor, data_hora, assinatura)
+        transacao.validar_status(self._chave_publica, assinatura, padding_config)
+        
         return transacao
     
     #Executa transações
     def executar_transacao(self, transacao: Transacao, saldo ):
         saldo = saldo - transacao._valor
         self._saldo = saldo
-        print(f"Executada {transacao._valor}")
-        print(f"Resta na sua conta: ")
+        print(f"\nExecutada {transacao._valor}")
+        print(f"Resta na sua conta: {self.getSaldo()}")
     
     # Verifica se o saldo á maior que o valor escolhido
     def verificar_transacao(self,  transacao: Transacao):
@@ -68,12 +77,13 @@ class Usuario:
             self.executar_transacao(transacao, self._saldo)
             return True
     
+    
 
 #cadastrar usuário:
 def cadrastrar_usuario(nome: str):
     chave_privada = criar_chave_privada()
-    chave_publica = criar_chave_publica()
+    chave_publica = criar_chave_publica(chave_privada)
     usuario = Usuario(nome, 1000, chave_publica)
         
-    print(f"Usuário criado com sucesso {usuario._nome}, sua chave privada é {chave_privada}, seu saldo inicial é {usuario._saldo}")
+    print(f"Usuário criado com sucesso\n{usuario._nome} sua chave privada é:\n{ler_chave_privada_pem_to_str(chave_privada)}\n, seu saldo inicial é {usuario._saldo}")
     return usuario

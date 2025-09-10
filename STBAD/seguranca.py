@@ -17,6 +17,27 @@ def criar_chave_privada():
                                         )
   return private_key
 
+def ler_chave_privada_pem_to_str(private_key):
+  # Exportar em PEM (texto legível)
+  pem_private = private_key.private_bytes(
+      encoding=serialization.Encoding.PEM,
+      format=serialization.PrivateFormat.PKCS8,
+      encryption_algorithm=serialization.NoEncryption()
+  )
+
+  pem_private = str(pem_private.decode()).replace("\n", "")
+  return pem_private
+
+
+def converter_chave_privada_str_to_pem(private_key):
+  private_key = private_key.encode()
+  pem_private = serialization.load_pem_private_key(
+      private_key,
+      password=None,
+      backend=default_backend()
+  )
+  return pem_private
+
 def criar_chave_publica(private_key):
   public_key = private_key.public_key()
   
