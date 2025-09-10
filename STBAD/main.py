@@ -2,7 +2,7 @@
     -- Arquivo Principal --
 """
 
-from Usuario import Usuario, cadrastrar_usuario
+from Usuario import *
 from Transacao import Transacao
 from datetime import datetime
 import time
@@ -12,9 +12,11 @@ def menu():
     print("=" * 55)
     print(f"{' '*18} Sistema  Bancário")
     print("=" * 55)
-    print("1 - Realizar transação")
-    print("2 - Consultar saldo")
-    print("3 - Ver histórico de transações")
+    print("1 - Cadastro de Usuario")
+    print("2 - Realizar transação")
+    print("3 - Consultar saldo")
+    print("4 - Validar Assinatura")
+    print("5 - Ver histórico de transações")
     print("0 - Sair")
     print("=" * 55)
 
@@ -23,17 +25,20 @@ def main():
     print(f"{' '*18} Bem-vindo ao Banco Silva")
     print("=" * 55)
 
-    # Cadastro de Usuário
-    print(f"---- Cadastro ----\n")
-    nome = str(input("Digite seu nome: "))
-    usuario = cadrastrar_usuario(nome)
-
     while True:
         menu()
         n_operacao = str(input("Escolha uma operação: "))
 
-        match n_operacao:
+        match n_operacao:    
             case '1':
+                    # Cadastro de Usuário
+                    print(f"---- Cadastro ----\n")
+                    nome = str(input("Digite nome de usuario: "))
+                    usuario = cadrastrar_usuario(nome)
+                    
+
+
+            case '2':
                 print(f"\n--- Realizando transação ---\n")
                 nome_dest = str(input("Digite o nome do destinatário: "))
                 valor = float(input("Digite o valor a ser transferido: R$ "))
@@ -49,13 +54,13 @@ def main():
 
                 time.sleep(1.5)
 
-            case '2':
+            case '3':
                 print(f"\nSeu saldo atual é: R$ {usuario._saldo:.2f}\n")
                 time.sleep(1.5)
 
-            case '3':
+            case '5':
                 try:
-                    with open("./log_transacoes.json", "r", encoding="utf-8") as f:
+                    with open("./STBAD/log_transacoes.json", "r", encoding="utf-8") as f:
                         hTransacoes = json.load(f)
 
                     # Filtrar apenas as do usuário
@@ -65,7 +70,7 @@ def main():
 
                     if not historico_usuario:
                         print("Nenhuma transação encontrada.\n")
-                        return
+                        break
 
                     print(f"\nHistórico de transações de {usuario.getNome()}:\n")
                     for t in historico_usuario:
@@ -81,6 +86,7 @@ def main():
                     print("Erro ao ler o histórico (JSON inválido).\n")
 
                 time.sleep(2)
+                break
 
             case '0':
                 print("\nObrigado por usar nosso sistema bancário! \n")

@@ -1,0 +1,14 @@
+[
+    {
+        "Nome": "Kaina",
+        "Saldo": 1000,
+        "Chave_Publica": "-----BEGIN PUBLIC KEY-----MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEA1bEEUqh+h+H8ni67tCnA9CK3jVGvRpMvw1wbjTW5oR2yYP6nhzI9F5K51uACEIabSzCoHdWsH+9AVEiNLllpYIYt/ljJnc7I9lFJU3HbIicUS3GBVVAB2SGHp349ju3bBmVWzpzRk8dcnQPGtPvPmZKt5QNbOncrubk4dVtrLxtW4fxq0qeVaO1NjwZTW67QYb8dP8usto387HqbH45l9f2sFc99EDYMqCG0VyUgjbZNFjfxgaSaSONCMo35X3O1+x2x3kAB+H+Hjmhpttt/TH0hHFmhvW30isneJcXo5hYsXN7CAb86CPTXTXfP8F96gtNiDjeHoZYJIxq+jg13NpxfKrfC/yisBTdcSMo6WT8AOsrhIs6mpjqXoZOyp+y5m8mdbsWXvjPSAzmH2vDYMaRUfzYrnOycOiGnaj6vzBOXPrI6kqIcKka4H/38chyg1cN7YwvwoG1+2A02U2xo+9qJHmzF1D6CI/Zcz8KCzQDJ1Q7D0JZwklAbeQbv4HwPAgMBAAE=-----END PUBLIC KEY-----",
+        "data_criação": "2025-09-10 23:38:39.852454"
+    },
+    {
+        "Nome": "kaina",
+        "Saldo": 1000,
+        "Chave_Publica": "-----BEGIN PUBLIC KEY-----MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAvwpVxRD+hPYi6IktFPv0SCiZ8RnNkIjqKewQAfgndwiVEb1prJo6Ea2fwphcDLcKENYuyKzmWHl5cx3GZvyTN6ZE5y6BO0GOFns/2rZcRfj4IO4/Nndg0TfXSk/CjE3XUaBvyUdaD8K6sooSu5SaX2E3BifMxQzup41gOhLk5b2Eh8hAWOrcgC/WMIEAHARDieIcydNou/9JkNDL7b1pq+vi5t0VOuBi99vpHicHkJ4xcmfAI6dzQshp77QUACyjgO4HlEQskXoCmrdgW36tdMj5kUBh+rGG7l8Bja/2wya6r1qyopITnURfDgoxHhinQOKdRLbuFp3H48PRl0ub3s30xL/LsyXEpd8R/TvVvnpPJt/ScDY7qFIOZVoJA/cpV4wPIsk055qJM7km0TxWeEGhfoidW2l+CUgeyrTe1MNqrvda7Q0+KZgBHX5MwfG9shCOF4OLobod18F+FP1paF55ugaZe3ctkcXT/6AlPNhbFAD2C9KqlTruJ7LFBGbhAgMBAAE=-----END PUBLIC KEY-----",
+        "data_criação": "2025-09-10 23:39:20.388127"
+    }
+]

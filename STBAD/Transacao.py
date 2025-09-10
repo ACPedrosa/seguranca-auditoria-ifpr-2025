@@ -70,7 +70,7 @@ class Transacao:
             "status": self._status_assinatura
     }
 
-    def log_transacao(transacao, arquivo='./log_transacoes.json'):
+    def log_transacao(transacao, arquivo='./STBAD/log_transacoes.json'):
         doc = transacao.criar_doc_transacao()
 
         # Se o arquivo existe, lê a lista existente
